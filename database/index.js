@@ -39,6 +39,18 @@ let repoSchema = Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (data) => {
+  var query = { name: data.owner.id }
+  var upsert = { upsert: true }
+  var newUser = new User({
+    name: data.owner.login,
+    GHId: data.owner.id,
+    reposUrl: data.owner.repos_url,
+    avatarUrl: data.owner.avatar_url,
+    orgsUrl: data.owner.organizations_url
+  })
+  User.findOneAndUpdate(query, {$set: }, upsert, () => {
+
+  }, callback);
 
 }
 
