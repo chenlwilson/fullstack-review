@@ -34,7 +34,7 @@ let repoSchema = Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let saveUser = (data) => {
+let findOrSaveUser = (data, callback) => {
   var query = { GHId: data.owner.id }
   var options = {upsert: true, new: true}
   var newUser = new User({
@@ -44,12 +44,17 @@ let saveUser = (data) => {
     avatarUrl: data.owner.avatar_url,
     orgsUrl: data.owner.organizations_url
   })
-  User.findOneAndUpdate(query, newUser, options, () => {
-
+  User.findOneAndUpdate(query, newUser, options, (err, user) => {
+    if (err) {
+      console.log('saving repo error: ' + err);
+    } else {
+      findOrSaveRepo(data, user.GHId);
+      callback(user.GHId);
+    }
   });
 }
 
-let saveRepo = (data, userId) => {
+let findOrSaveRepo = (data, userId) => {
   var query = { GHId: data.id }
   var options = {upsert: true, new: true}
   var newRepo = new Repo({
@@ -67,10 +72,14 @@ let saveRepo = (data, userId) => {
     collabsUrl:String,
     userId: userId
   })
-  Repo.findOneAndUpdate(query, newRepo, options, () => {
-
+  Repo.findOneAndUpdate(query, newRepo, options, (err, repo) => {
+    if (err) {
+      console.log('saving repo error: ' + err);
+    } else {
+      console.log('new repo saved: ' + repo);
+    }
   });
 }
 
-module.exports.saveUser = saveUser;
-module.exports.saveRepo = saveRepo;
+module.exports.findOrSaveUser = findOrSaveUser;
+module.exports.findOrSaveRepo = findOrSaveRepo;
