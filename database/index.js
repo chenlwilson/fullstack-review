@@ -20,13 +20,9 @@ let repoSchema = Schema({
   name: String,
   fullName: String,
   GHId:Number,
-  htmlUrl:String,
-  apiUrl:String,
   createdAt:String,
   updatedAt:String,
-  pushedAt:String,
-  gitUrl:String,
-  cloneUrl:String,
+  htmlUrl:String,
   language:String,
   size:Number,
   forksCount:Number,
@@ -38,9 +34,9 @@ let repoSchema = Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => {
-  var query = { name: data.owner.id }
-  var upsert = { upsert: true }
+let saveUser = (data) => {
+  var query = { GHId: data.owner.id }
+  var options = {upsert: true, new: true}
   var newUser = new User({
     name: data.owner.login,
     GHId: data.owner.id,
@@ -48,10 +44,33 @@ let save = (data) => {
     avatarUrl: data.owner.avatar_url,
     orgsUrl: data.owner.organizations_url
   })
-  User.findOneAndUpdate(query, {$set: }, upsert, () => {
+  User.findOneAndUpdate(query, newUser, options, () => {
 
-  }, callback);
-
+  });
 }
 
-module.exports.save = save;
+let saveRepo = (data, userId) => {
+  var query = { GHId: data.id }
+  var options = {upsert: true, new: true}
+  var newRepo = new Repo({
+    name: String,
+    fullName: String,
+    GHId:Number,
+    createdAt:String,
+    updatedAt:String,
+    htmlUrl:String,
+    language:String,
+    size:Number,
+    forksCount:Number,
+    watchersCount:Number,
+    defaultBranch:String,
+    collabsUrl:String,
+    userId: userId
+  })
+  Repo.findOneAndUpdate(query, newRepo, options, () => {
+
+  });
+}
+
+module.exports.saveUser = saveUser;
+module.exports.saveRepo = saveRepo;
