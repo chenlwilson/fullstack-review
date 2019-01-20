@@ -1,11 +1,13 @@
 import React from 'react';
+import _ from 'lodash';
 
 class Search extends React.Component {
   constructor(props) {
 
+    super(props);
+
     this.onChange = this.onChange.bind(this);
 
-    super(props);
     this.state = {
       term: ''
     }
@@ -22,10 +24,13 @@ class Search extends React.Component {
   // }
 
   render() {
+
+    let debounceSearch = _.debounce(() => { this.props.onSearch(this.state.term) }, 500);
+
     return (<div>
       <h4>Add more repos!</h4>
       Enter a github username: <input value={this.state.terms} onChange={this.onChange}/>
-      <button onClick={this.props.onSearch(this.state.term)}> Add Repos </button>
+      <button onClick={debounceSearch}> Add Repos </button>
     </div>)
   }
 }

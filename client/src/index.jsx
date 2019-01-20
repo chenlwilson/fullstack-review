@@ -7,14 +7,24 @@ import RepoList from './components/RepoList.jsx';
 class App extends React.Component {
   constructor(props) {
 
-    this.search = this.search.bind(this);
-
     super(props);
+
+    this.search = this.search.bind(this);
+    //this.loadRepos = this.loadRepos.bind(this);
+
     this.state = {
       repos: []
     }
 
   }
+
+  // componentDidMount() {
+  //   loadRepos();
+  // }
+
+  // loadRepos() {
+
+  // }
 
   search (term) {
     console.log(`${term} was searched`);
