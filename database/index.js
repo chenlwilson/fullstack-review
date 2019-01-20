@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/fetcher');
+console.log('database/index.js loaded!')
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+mongoose.connect('mongodb://localhost:27017/fetcher');
 
 const db = mongoose.connection;
 db.on('error', console.log('mongodb fetcher connection error!'))
 db.once('open', () => {console.log('mongodb fetcher connected!')})
 
-let userSchema = Schema({
+var userSchema = Schema({
   name:String,
   GHId:Number,
   reposUrl:String,
@@ -14,9 +15,17 @@ let userSchema = Schema({
   orgsUrl:String
 });
 
-let User = mongoose.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
-let repoSchema = Schema({
+User.find((err, res) => {
+  if(err) {
+    console.log('user find err: ' + err)
+  } else {
+    console.log(JSON.stringify(res));
+  }
+})
+
+var repoSchema = Schema({
   name: String,
   fullName: String,
   GHId:Number,
@@ -32,9 +41,9 @@ let repoSchema = Schema({
   userId: [{type: 'ObjectId'}, {ref:'User'}]
 });
 
-let Repo = mongoose.model('Repo', repoSchema);
+var Repo = mongoose.model('Repo', repoSchema);
 
-let findOrSaveUser = (data, callback) => {
+var findOrSaveUser = (data, callback) => {
   var query = { name: data.owner.login }
   var options = {upsert: true, new: true}
   var newUser = new User({
@@ -54,7 +63,7 @@ let findOrSaveUser = (data, callback) => {
   });
 }
 
-let findOrSaveRepo = (data, userId) => {
+var findOrSaveRepo = (data, userId) => {
   var query = { GHId: data.id }
   var options = {upsert: true, new: true}
   var newRepo = new Repo({
