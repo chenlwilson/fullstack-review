@@ -35,7 +35,7 @@ let repoSchema = Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let findOrSaveUser = (data, callback) => {
-  var query = { GHId: data.owner.id }
+  var query = { name: data.owner.login }
   var options = {upsert: true, new: true}
   var newUser = new User({
     name: data.owner.login,
@@ -46,10 +46,10 @@ let findOrSaveUser = (data, callback) => {
   })
   User.findOneAndUpdate(query, newUser, options, (err, user) => {
     if (err) {
-      console.log('saving repo error: ' + err);
+      console.log('saving user error: ' + err);
     } else {
-      findOrSaveRepo(data, user.GHId);
-      callback(user.GHId);
+      console.log('new user saved!')
+      callback(data, user.id);
     }
   });
 }

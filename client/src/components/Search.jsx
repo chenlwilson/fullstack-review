@@ -2,6 +2,9 @@ import React from 'react';
 
 class Search extends React.Component {
   constructor(props) {
+
+    this.onChange = this.onChange.bind(this);
+
     super(props);
     this.state = {
       term: ''
@@ -14,16 +17,16 @@ class Search extends React.Component {
     });
   }
 
-  search() {
-    this.props.onSearch(this.state.term);
-  }
+  // search() {
+  //   this.props.onSearch(this.state.term);
+  // }
 
   render() {
     return (<div>
       <h4>Add more repos!</h4>
-      Enter a github username: <input value={this.state.terms} onChange={this.onChange}/>       
-      <button onClick={this.search}> Add Repos </button>
-    </div>) 
+      Enter a github username: <input value={this.state.terms} onChange={this.onChange}/>
+      <button onClick={this.props.onSearch(this.state.term)}> Add Repos </button>
+    </div>)
   }
 }
 
