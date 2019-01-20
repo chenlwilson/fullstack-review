@@ -19,10 +19,6 @@ class Search extends React.Component {
     });
   }
 
-  // search() {
-  //   this.props.onSearch(this.state.term);
-  // }
-
   render() {
 
     let debounceSearch = _.debounce(() => { this.props.onSearch(this.state.term) }, 500);

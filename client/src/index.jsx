@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
 
     this.search = this.search.bind(this);
-    //this.loadRepos = this.loadRepos.bind(this);
+    this.loadRepos = this.loadRepos.bind(this);
 
     this.state = {
       repos: []
@@ -18,13 +18,26 @@ class App extends React.Component {
 
   }
 
-  // componentDidMount() {
-  //   loadRepos();
-  // }
+  componentDidMount() {
+    this.loadRepos();
+  }
 
-  // loadRepos() {
-
-  // }
+  loadRepos() {
+    $.ajax({
+      url: '/repos',
+      type: 'GET',
+      contentType: 'text/plain'
+    })
+    .done((data) => {
+      console.log('load repos success!')
+      this.setState({
+        repos: JSON.parse(data)
+      })
+    })
+    .fail(() => {
+      console.log('load repos failed!')
+    })
+  }
 
   search (term) {
     console.log(`${term} was searched`);
@@ -38,7 +51,7 @@ class App extends React.Component {
     .done((data) => {
       console.log('fecth repos success!')
       this.setState({
-        repos: data
+        repos: JSON.part(data)
       })
     })
     .fail(() => {

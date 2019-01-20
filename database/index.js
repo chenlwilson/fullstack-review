@@ -1,11 +1,13 @@
 console.log('database/index.js loaded!')
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost:27017/fetcher');
+mongoose.connect('mongodb://localhost:27017/fetcher', { useNewUrlParser: true });
 
-const db = mongoose.connection;
-db.on('error', console.log('mongodb fetcher connection error!'))
-db.once('open', () => {console.log('mongodb fetcher connected!')})
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('mongodb fetcher connected!')
+});
 
 var userSchema = Schema({
   name:String,
@@ -89,6 +91,10 @@ var findOrSaveRepo = (data, userId) => {
     }
   });
 }
+
+// var findPopularRepos = (callback) => {
+//   Repo.
+// }
 
 module.exports.findOrSaveUser = findOrSaveUser;
 module.exports.findOrSaveRepo = findOrSaveRepo;
