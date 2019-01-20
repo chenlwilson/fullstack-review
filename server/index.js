@@ -1,7 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {findOrSaveUser, findOrSaveRepo} = require('../database/index.js')
-const {getReposByUsername} = require('../helpers/github.js')
+const {
+  findOrSaveUser,
+  findOrSaveRepo,
+  findPopularRepos } = require('../database/index.js');
+const {getReposByUsername} = require('../helpers/github.js');
 
 let app = express();
 
@@ -30,7 +33,7 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
-  getReposByPopularity((err, results) => {
+  findPopularRepos((err, results) => {
     if (err) {
       console.log('getReposByPopularity error: ' + err);
     } else {

@@ -92,9 +92,10 @@ var findOrSaveRepo = (data, userId) => {
   });
 }
 
-// var findPopularRepos = (callback) => {
-//   Repo.
-// }
+var findPopularRepos = (callback) => {
+
+}
 
 module.exports.findOrSaveUser = findOrSaveUser;
 module.exports.findOrSaveRepo = findOrSaveRepo;
+module.exports.findPopularRepos = findPopularRepos;
