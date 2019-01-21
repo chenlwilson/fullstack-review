@@ -6,16 +6,16 @@ const inlineStyle = {
   borderRadius:'5px'
 }
 
-const UserProfile = () => (
+const UserProfile = (props) => (
   <div>
     <h4>
-      <img style={inlineStyle} src='https://avatars0.githubusercontent.com/u/583231?v=3'></img>
+      <img style={inlineStyle} src={ props.user.avatarUrl }></img>
       <br/>
       Name: Octocat
       </h4>
     <ul>
-    <li><a href='http://www.github.com'>repositories</a></li>
-    <li><a href='http://www.github.com'>orginazations</a></li>
+    <li><a href={ props.user.reposUrl }>repositories</a></li>
+    <li><a href={ props.user.orgsUrl }>orginazations</a></li>
     </ul>
   </div>
 )

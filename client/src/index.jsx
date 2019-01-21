@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import UserProfile from './components/UserProfile.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends React.Component {
     this.loadRepos = this.loadRepos.bind(this);
 
     this.state = {
-      repos: []
+      repos: [],
+      user: ''
     }
 
   }
@@ -32,7 +34,8 @@ class App extends React.Component {
       console.log('load repos success! ')
       console.log(data)
       this.setState({
-        repos: data
+        repos: data,
+        user: data[1]
       })
     })
     .fail(() => {
@@ -65,6 +68,7 @@ class App extends React.Component {
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search}/>
       <br/>
+      <UserProfile user={ this.state.user }/>
       <RepoList repos={this.state.repos}/>
     </div>)
   }

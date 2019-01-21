@@ -1,7 +1,10 @@
 import React from 'react';
 import RepoEntry from './RepoEntry.jsx'
-import UserProfile from './UserProfile.jsx'
 
+const inlineTB = {
+  width: '1000px',
+  margin: '20px'
+}
 const inlineTR = {
   width: '2000px',
   margin: '20px',
@@ -15,9 +18,8 @@ const inlineTR = {
 
 const RepoList = (props) => (
   <div>
-      <UserProfile />
-      <h4>Woot! Latest { props.repos.length } Repos Found.</h4>
-    <table>
+    <h4>Woot! Latest { props.repos.length } Repos Found.</h4>
+    <table style={inlineTB}>
       <tbody>
         <tr style={inlineTR}>
           <th>Repository</th>
@@ -30,9 +32,9 @@ const RepoList = (props) => (
           <th>Default Branch</th>
           <th>Collaborators</th>
         </tr>
-        { props.repos.map((repo) =>
+      { props.repos.map((repo) =>
           <RepoEntry data={repo} key={repo._id}/>
-        ) }
+        )}
       </tbody>
     </table>
   </div>
