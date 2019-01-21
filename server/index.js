@@ -16,6 +16,7 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   const searchedUser = req.body;
+  res.send(results);
 
   getReposByUsername(searchedUser, (results) => {
     findOrSaveUser(results[0], (userId) => {
@@ -25,7 +26,6 @@ app.post('/repos', function (req, res) {
         findOrSaveRepo(userId, result);
       })
     })
-    res.send(results);
   });
 
 });
