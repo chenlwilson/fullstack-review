@@ -45,7 +45,7 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    //$.ajax post to /repos
+    //$.ajax post to '/repos'
     $.ajax({
       url: '/repos',
       type: 'POST',
@@ -55,7 +55,7 @@ class App extends React.Component {
     .done((data) => {
       console.log('fecth repos success!')
       this.setState({
-        repos: JSON.parse(data)
+        repos: data
       })
     })
     .fail(() => {
@@ -64,11 +64,17 @@ class App extends React.Component {
   }
 
   render () {
+
+    let userProfile
+    if (this.state.user) {
+      userProfile = <UserProfile user={ this.state.user }/>
+    }
+
     return (<div>
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search}/>
       <br/>
-      <UserProfile user={ this.state.user }/>
+      {userProfile}
       <RepoList repos={this.state.repos}/>
     </div>)
   }

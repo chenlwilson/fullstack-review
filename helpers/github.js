@@ -10,14 +10,16 @@ let getReposByUsername = (username, callback) => {
   let options = {
     //GET /users/:username/repos
     url: `https://api.github.com/users/${username}/repos`,
-    Accept: application/vnd.github.v3+json,
+    //Accept: application/vnd.github.v3+json,
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
     },
-    sort: created,
-    direction: desc
+    sort: 'created',
+    direction: 'desc'
   };
+
+  console.log('github.js getReposByUsername is called')
 
   request(options, (err, res, body) => {
     console.log('github.js line 23')

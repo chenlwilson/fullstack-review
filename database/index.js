@@ -20,14 +20,6 @@ var userSchema = Schema({
 
 var User = mongoose.model('User', userSchema);
 
-User.find().exec((err, res) => {
-  if(err) {
-    console.log('user find err: ' + err)
-  } else {
-    console.log('res is ' + JSON.stringify(res));
-  }
-})
-
 var repoSchema = Schema({
   name: String,
   fullName: String,
