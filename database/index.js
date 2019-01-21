@@ -40,22 +40,33 @@ var Repo = mongoose.model('Repo', repoSchema);
 
 var findOrSaveUser = (data, callback) => {
   var query = { name: data.owner.login }
-  var options = {upsert: true, new: true}
-  var newUser = new User({
+  var newUser = {
     name: data.owner.login,
     GHId: data.owner.id,
+    htmlUrl: data.owner.html_url,
     reposUrl: data.owner.repos_url,
     avatarUrl: data.owner.avatar_url,
     orgsUrl: data.owner.organizations_url
-  })
-  User.findOneAndUpdate(query, newUser, options, (err, user) => {
+  }
+  User.findOne(query)
+  .exec((err, result) => {
     if (err) {
-      console.log('saving user error: ' + err);
+      console.log('User.findOne error: ' + err);
     } else {
-      console.log('new user saved!')
-      callback(user.id);
+      if (!result) {
+        User.create(newUser, (err, user) => {
+          if (err) {
+            console.log('User.create erro: ' + err);
+          } else {
+            console.log('created user id is ' + user.id);
+            callback(user.id);
+          }
+        });
+      }
+      console.log('found user: ' + result);
+      callback(result.id);
     }
-  });
+  })
 }
 
 var findOrSaveRepo = (userId, data) => {

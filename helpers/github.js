@@ -2,11 +2,9 @@ const request = require('request');
 const config = require('../config.js');
 
 let getReposByUsername = (username, callback) => {
-  // TODO - Use the request module to request repos for a specific
+  // Use the request module to request repos for a specific
   // user from the github API
 
-  // The options object has been provided to help you out,
-  // but you'll have to fill in the URL
   let options = {
     //GET /users/:username/repos
     url: `https://api.github.com/users/${username}/repos`,
@@ -19,15 +17,13 @@ let getReposByUsername = (username, callback) => {
     direction: 'desc'
   };
 
-  console.log('github.js getReposByUsername is called')
-
   request(options, (err, res, body) => {
-    console.log('github.js line 23')
     if (err) {
       console.log('GH API call error: ' + err);
     } else {
-      console.log('GH API call success!');
-      callback(res)
+      console.log('GH API call success! number of repos is ');
+      console.log(JSON.parse(body).length);
+      callback(JSON.parse(body))
     }
   })
 

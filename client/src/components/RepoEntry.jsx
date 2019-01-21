@@ -10,6 +10,7 @@ const inlineTR = {
 
 const RepoEntry = (props) => (
   <tr style={inlineTR}>
+    <td>{ props.data.userId.name }</td>
     <td><a href={ props.data.htmlUrl }>{ props.data.name }</a></td>
     <td>{ props.data.createdAt }</td>
     <td>{ props.data.updatedAt }</td>

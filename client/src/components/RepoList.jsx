@@ -22,6 +22,7 @@ const RepoList = (props) => (
     <table style={inlineTB}>
       <tbody>
         <tr style={inlineTR}>
+          <th>Owner</th>
           <th>Repository</th>
           <th>Created</th>
           <th>Last Updated</th>

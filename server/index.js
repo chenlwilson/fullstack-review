@@ -17,20 +17,16 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   const searchedUser = req.body;
 
-  getReposByUsername(searchedUser, (err, results) => {
-    if (err) {
-      console.log('getReposByUsername error: ' + err);
-    } else {
-      parsedResults = JSON.parse(results);
-      findOrSaveUser(parsedResults[0], (userId) => {
-        parsedResults.forEach((result) => {
-          console.log('parsedResult is: ' + result);
-          findOrSaveRepo(userId, result);
-        })
-        res.send(results);
+  getReposByUsername(searchedUser, (results) => {
+    findOrSaveUser(results[0], (userId) => {
+      results.forEach((result) => {
+        console.log('parsedResult is: ' + result);
+        findOrSaveRepo(userId, result);
       })
-    }
+    })
+    res.send(results);
   });
+
 });
 
 app.get('/repos', function (req, res) {
