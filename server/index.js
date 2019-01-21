@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const {
   findOrSaveUser,
   findOrSaveRepo,
   getTopRepos,
-  getReposByUser } = require('../database/index.js');
+  getReposByDBUser } = require('../database/index.js');
 const {getReposByUsername} = require('../helpers/github.js');
+
+//const findOrSaveUserPromise = Promise.promisify(findOrSaveUser);
 
 let app = express();
 
@@ -19,24 +22,25 @@ app.post('/repos', function (req, res) {
   const searchedUser = req.body;
 
   getReposByUsername(searchedUser, (results) => {
-    const dbResults = [];
-
+    console.log('server 22 results is ' + JSON.stringify(results));
     findOrSaveUser(results[0], (userId) => {
       console.log('server line 22 userId is ' + userId)
       results.forEach((result) => {
         console.log('to be saved repo is: ' + result);
         findOrSaveRepo(userId, result);
       })
-      getReposByUser(userId, (err, results) => {
-        if (err) {
-          console.log('getReposByUser error: ' + err);
-        } else {
-          res.send(results);
-        }
-      });
     })
 
-  });
+    getReposByDBUser(searchedUser, (err, results) => {
+      if (err) {
+        console.log('getReposByUser in db error: ' + err);
+      } else {
+        console.log('server 40 results is ' + results);
+        res.send(results);
+      }
+    })
+
+  })
 
 });
 

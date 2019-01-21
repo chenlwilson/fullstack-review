@@ -60,7 +60,8 @@ class App extends React.Component {
       console.log('fecth repos success!')
       this.setState({
         repos: data,
-        search: 'Recent'
+        search: 'Recent',
+        user: data[0].userId
       })
     })
     .fail(() => {
@@ -71,7 +72,7 @@ class App extends React.Component {
   render () {
 
     let userProfile
-    if (this.state.searched) {
+    if (this.state.search === 'Recent') {
       userProfile = <UserProfile user={ this.state.user } />
     }
 

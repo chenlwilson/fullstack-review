@@ -2,7 +2,7 @@ import React from 'react';
 import RepoEntry from './RepoEntry.jsx'
 
 const inlineTB = {
-  width: '1000px',
+  width: '1200px',
   margin: '20px'
 }
 const inlineTR = {

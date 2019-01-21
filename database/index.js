@@ -1,5 +1,6 @@
-console.log('database/index.js loaded!')
 var mongoose = require('mongoose');
+
+///////////////////////Schema//////////////////////
 var Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost:27017/fetcher', { useNewUrlParser: true });
 
@@ -37,6 +38,9 @@ var repoSchema = Schema({
 });
 
 var Repo = mongoose.model('Repo', repoSchema);
+
+
+///////////////////////Controllers//////////////////////
 
 var findOrSaveUser = (data, callback) => {
   var query = { name: data.owner.login }
@@ -106,12 +110,20 @@ var findOrSaveRepo = (userId, data) => {
   })
 }
 
-var getReposByUser = (userId, callback) => {
-  Repo.find({userId:userId})
-  .limit(25)
-  .sort({createdAt: 'desc'})
-  .populate('userId')
-  .exec(callback)
+var getReposByDBUser = (username, callback) => {
+  User.find({name: username}, 'id', (err, user) => {
+    if (err) {
+      console.log('getReposByUser error: ' + err);
+    } else {
+      console.log('db 115: user is ' + user);
+      const id = user[0].id;
+      Repo.find({userId:id})
+      .limit(25)
+      .sort({createdAt: 'desc'})
+      .populate('userId')
+      .exec(callback)
+    }
+  })
 }
 
 var getTopRepos = (callback) => {
@@ -124,9 +136,10 @@ var getTopRepos = (callback) => {
 
 module.exports.findOrSaveUser = findOrSaveUser;
 module.exports.findOrSaveRepo = findOrSaveRepo;
-module.exports.getReposByUser = getReposByUser;
+module.exports.getReposByDBUser = getReposByDBUser;
 module.exports.getTopRepos = getTopRepos;
 
+// db create documents manual operations
 // User.create(
 //   {
 //     name: "octocat",

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "babel-core": "^7.0.0-bridge.0",
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "express": "^4.13.4",
     "jquery": "^3.3.1",
