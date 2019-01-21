@@ -35,7 +35,7 @@ class App extends React.Component {
       console.log(data)
       this.setState({
         repos: data,
-        user: data[1]
+        user: data[0].userId
       })
     })
     .fail(() => {

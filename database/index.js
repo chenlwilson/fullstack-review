@@ -12,6 +12,7 @@ db.once('open', function() {
 var userSchema = Schema({
   name:String,
   GHId:Number,
+  htmlUrl:String,
   reposUrl:String,
   avatarUrl:String,
   orgsUrl:String
@@ -23,6 +24,7 @@ var User = mongoose.model('User', userSchema);
 //   {
 //     name: "octocat",
 //     GHId: 583231,
+//     htmlUrl: "https://github.com/octocat",
 //     reposUrl:"https://api.github.com/users/octocat/repos",
 //     avatarUrl:"https://avatars0.githubusercontent.com/u/583231?v=3",
 //     orgsUrl:"https://api.github.com/users/octocat/orgs"
@@ -55,7 +57,7 @@ var repoSchema = Schema({
   watchersCount:Number,
   defaultBranch:String,
   collabsUrl:String,
-  userId: [{type: 'ObjectId'}, {ref:'User'}]
+  userId: {type: 'ObjectId', ref:'User'}
 });
 
 var Repo = mongoose.model('Repo', repoSchema);
@@ -73,7 +75,7 @@ var Repo = mongoose.model('Repo', repoSchema);
 //   watchersCount:7,
 //   defaultBranch:'master',
 //   collabsUrl:"https://api.github.com/repos/octocat/hello-worId/collaborators{/collaborator}",
-//   userId: '5c454329550dd9a1ddad605d'
+//   userId: '5c455dedb27761b99872022c'
 // })
 
 var findOrSaveUser = (data, callback) => {
@@ -127,6 +129,7 @@ var getTopRepos = (callback) => {
   Repo.find({})
   .limit(25)
   .sort('forksCount')
+  .populate('userId')
   .exec(callback)
 }
 

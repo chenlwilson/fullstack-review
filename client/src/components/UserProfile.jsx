@@ -8,14 +8,15 @@ const inlineStyle = {
 
 const UserProfile = (props) => (
   <div>
-    <h4>
+    <h3>
       <img style={inlineStyle} src={ props.user.avatarUrl }></img>
       <br/>
-      Name: Octocat
-      </h4>
+      > { props.user.name }
+      </h3>
     <ul>
-    <li><a href={ props.user.reposUrl }>repositories</a></li>
-    <li><a href={ props.user.orgsUrl }>orginazations</a></li>
+    <li><a href={ props.user.htmlUrl }>profile</a></li>
+    <li>repositories api: { props.user.reposUrl }</li>
+    <li>orgnizations api: { props.user.orgsUrl }</li>
     </ul>
   </div>
 )
