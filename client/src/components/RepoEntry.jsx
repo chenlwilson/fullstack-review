@@ -8,9 +8,7 @@ const inlineTR = {
   fontSize: '12px'
 }
 
-const RepoEntry = (props) => {
-
-  return (
+const RepoEntry = (props) => (
   <tr style={inlineTR}>
     <td><a href={ props.data.htmlUrl }>{ props.data.name }</a></td>
     <td>{ props.data.createdAt }</td>
@@ -22,7 +20,6 @@ const RepoEntry = (props) => {
     <td>{ props.data.defaultBranch }</td>
     <td><a href={ props.data.collabsUrl }>collaborators</a></td>
   </tr>
-  )
-}
+)
 
 export default RepoEntry;

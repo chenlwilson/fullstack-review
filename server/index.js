@@ -39,7 +39,19 @@ app.get('/repos', function (req, res) {
     if (err) {
       console.log('getTopRepos error: ' + err);
     } else {
-      console.log('getTopRepos success!')
+      console.log(results);
+      // var parsedResults = results.map((result) => {
+      //   const createDate = result.createdAt.split('T')[0]
+      //   const createTime = result.createdAt.split('T')[1].split('Z')[0]
+      //   const updateDate = esult.updatedAt.split('T')[0]
+      //   const updateTime = result.updatedAt.split('T')[1].split('Z')[0]
+      //   // result.createdAt = createDate + ' ' + createTime
+      //   // result.updatedAt = updateDate + ' ' + updateTime
+      //   Object.assign({}, result, {
+      //     createdAt: createDate + ' ' + createTime,
+      //     updatedAt: updateDate + ' ' + updateTime
+      //   })
+      // })
       res.send(results);
     }
   });
