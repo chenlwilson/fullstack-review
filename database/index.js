@@ -106,16 +106,25 @@ var findOrSaveRepo = (userId, data) => {
   })
 }
 
+var getReposByUser = (userId, callback) => {
+  Repo.find({userId:userId})
+  .limit(25)
+  .sort({createdAt: 'desc'})
+  .populate('userId')
+  .exec(callback)
+}
+
 var getTopRepos = (callback) => {
   Repo.find({})
   .limit(25)
-  .sort('forksCount')
+  .sort({forksCount: 'desc'})
   .populate('userId')
   .exec(callback)
 }
 
 module.exports.findOrSaveUser = findOrSaveUser;
 module.exports.findOrSaveRepo = findOrSaveRepo;
+module.exports.getReposByUser = getReposByUser;
 module.exports.getTopRepos = getTopRepos;
 
 // User.create(

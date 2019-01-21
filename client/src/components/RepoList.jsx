@@ -18,7 +18,7 @@ const inlineTR = {
 
 const RepoList = (props) => (
   <div>
-    <h4>Woot! { props.repos.length } Repos Found.</h4>
+    <h4>Woot! { props.repos.length } Most {props.msg} Repos Found.</h4>
     <table style={inlineTB}>
       <tbody>
         <tr style={inlineTR}>

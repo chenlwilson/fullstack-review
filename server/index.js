@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const {
   findOrSaveUser,
   findOrSaveRepo,
-  getTopRepos } = require('../database/index.js');
+  getTopRepos,
+  getReposByUser } = require('../database/index.js');
 const {getReposByUsername} = require('../helpers/github.js');
 
 let app = express();
@@ -16,16 +17,25 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   const searchedUser = req.body;
-  res.send(results);
 
   getReposByUsername(searchedUser, (results) => {
+    const dbResults = [];
+
     findOrSaveUser(results[0], (userId) => {
       console.log('server line 22 userId is ' + userId)
       results.forEach((result) => {
         console.log('to be saved repo is: ' + result);
         findOrSaveRepo(userId, result);
       })
+      getReposByUser(userId, (err, results) => {
+        if (err) {
+          console.log('getReposByUser error: ' + err);
+        } else {
+          res.send(results);
+        }
+      });
     })
+
   });
 
 });
@@ -37,18 +47,6 @@ app.get('/repos', function (req, res) {
       console.log('getTopRepos error: ' + err);
     } else {
       console.log(results);
-      // var parsedResults = results.map((result) => {
-      //   const createDate = result.createdAt.split('T')[0]
-      //   const createTime = result.createdAt.split('T')[1].split('Z')[0]
-      //   const updateDate = esult.updatedAt.split('T')[0]
-      //   const updateTime = result.updatedAt.split('T')[1].split('Z')[0]
-      //   // result.createdAt = createDate + ' ' + createTime
-      //   // result.updatedAt = updateDate + ' ' + updateTime
-      //   Object.assign({}, result, {
-      //     createdAt: createDate + ' ' + createTime,
-      //     updatedAt: updateDate + ' ' + updateTime
-      //   })
-      // })
       res.send(results);
     }
   });

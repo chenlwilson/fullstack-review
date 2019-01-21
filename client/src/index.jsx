@@ -15,13 +15,17 @@ class App extends React.Component {
 
     this.state = {
       repos: [],
-      user: ''
+      user: '',
+      search: 'Popular'
     }
 
   }
 
   componentDidMount() {
     this.loadRepos();
+    this.setState({
+      search: 'Popular'
+    })
   }
 
   loadRepos() {
@@ -55,7 +59,8 @@ class App extends React.Component {
     .done((data) => {
       console.log('fecth repos success!')
       this.setState({
-        repos: data
+        repos: data,
+        search: 'Recent'
       })
     })
     .fail(() => {
@@ -66,8 +71,8 @@ class App extends React.Component {
   render () {
 
     let userProfile
-    if (this.state.user) {
-      userProfile = <UserProfile user={ this.state.user }/>
+    if (this.state.searched) {
+      userProfile = <UserProfile user={ this.state.user } />
     }
 
     return (<div>
@@ -75,7 +80,7 @@ class App extends React.Component {
       <Search onSearch={this.search}/>
       <br/>
       {userProfile}
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos}  msg={ this.state.search } />
     </div>)
   }
 }
