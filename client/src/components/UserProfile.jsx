@@ -1,6 +1,10 @@
 import React from 'react';
 
-const inlineStyle = {width:'100px',height:'100px'}
+const inlineStyle = {
+  width:'130px',
+  height:'130px',
+  borderRadius:'5px'
+}
 
 const UserProfile = () => (
   <div>

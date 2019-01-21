@@ -29,9 +29,10 @@ class App extends React.Component {
       contentType: 'text/plain'
     })
     .done((data) => {
-      console.log('load repos success!')
+      console.log('load repos success! ')
+      console.log(data)
       this.setState({
-        repos: JSON.parse(data)
+        repos: data
       })
     })
     .fail(() => {

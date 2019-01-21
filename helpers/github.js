@@ -20,6 +20,7 @@ let getReposByUsername = (username, callback) => {
   };
 
   request(options, (err, res, body) => {
+    console.log('github.js line 23')
     if (err) {
       console.log('GH API call error: ' + err);
     } else {

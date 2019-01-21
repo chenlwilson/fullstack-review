@@ -19,6 +19,21 @@ var userSchema = Schema({
 
 var User = mongoose.model('User', userSchema);
 
+// User.create(
+//   {
+//     name: "octocat",
+//     GHId: 583231,
+//     reposUrl:"https://api.github.com/users/octocat/repos",
+//     avatarUrl:"https://avatars0.githubusercontent.com/u/583231?v=3",
+//     orgsUrl:"https://api.github.com/users/octocat/orgs"
+//   }, (err, user) => {
+//     if(err) {
+//       console.log('user create err: ' + err)
+//     } else {
+//       console.log('user is ' + JSON.stringify(user));
+//     }
+//   })
+
 User.find().exec((err, res) => {
   if(err) {
     console.log('user find err: ' + err)
@@ -44,6 +59,22 @@ var repoSchema = Schema({
 });
 
 var Repo = mongoose.model('Repo', repoSchema);
+
+// Repo.create({
+//   name: "git-consortium",
+//   fullName: "octocat/git-consortium",
+//   GHId:18221276,
+//   createdAt:"2014-03-28T17:55:38Z",
+//   updatedAt:"2016-12-06T13:06:37Z",
+//   htmlUrl:"https://github.com/octocat/git-consortium",
+//   language:null,
+//   size:190,
+//   forksCount:24,
+//   watchersCount:7,
+//   defaultBranch:'master',
+//   collabsUrl:"https://api.github.com/repos/octocat/hello-worId/collaborators{/collaborator}",
+//   userId: '5c454329550dd9a1ddad605d'
+// })
 
 var findOrSaveUser = (data, callback) => {
   var query = { name: data.owner.login }
@@ -95,7 +126,7 @@ var findOrSaveRepo = (userId, data) => {
 var getTopRepos = (callback) => {
   Repo.find({})
   .limit(25)
-  .sort('forksCount', 'descending')
+  .sort('forksCount')
   .exec(callback)
 }
 
