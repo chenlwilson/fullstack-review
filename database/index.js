@@ -71,29 +71,39 @@ var findOrSaveUser = (data, callback) => {
 
 var findOrSaveRepo = (userId, data) => {
   var query = { GHId: data.id }
-  var options = {upsert: true, new: true}
-  var newRepo = new Repo({
-    name: String,
-    fullName: String,
-    GHId:Number,
-    createdAt:String,
-    updatedAt:String,
-    htmlUrl:String,
-    language:String,
-    size:Number,
-    forksCount:Number,
-    watchersCount:Number,
-    defaultBranch:String,
-    collabsUrl:String,
+  var newRepo = {
+    name: data.name,
+    fullName: data.full_name,
+    GHId: data.id,
+    createdAt: data.created_at.split('T')[0] + data.created_at.split('T')[1].split('Z')[0],
+    updatedAt: data.updated_at.split('T')[0] + data.updated_at.split('T')[1].split('Z')[0],
+    htmlUrl: data.html_url,
+    language: data.language,
+    size: data.size,
+    forksCount: data.forks_count,
+    watchersCount: data.watchers,
+    defaultBranch: data.default_branch,
+    collabsUrl: data.collaborators_url,
     userId: userId
-  })
-  Repo.findOneAndUpdate(query, newRepo, options, (err, repo) => {
+  }
+  Repo.findOne(query)
+  .exec((err, result) => {
     if (err) {
-      console.log('saving repo error: ' + err);
+      console.log('Repo.findOne error: ' + err);
     } else {
-      console.log('new repo saved: ' + repo);
+      if (!result) {
+        Repo.create(newRepo, (err, user) => {
+          if (err) {
+            console.log('User.create erro: ' + err);
+          } else {
+            console.log('created new repo!');
+          }
+        });
+      } else {
+        console.log('repo already exist!');
+      }
     }
-  });
+  })
 }
 
 var getTopRepos = (callback) => {

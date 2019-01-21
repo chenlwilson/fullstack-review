@@ -19,8 +19,9 @@ app.post('/repos', function (req, res) {
 
   getReposByUsername(searchedUser, (results) => {
     findOrSaveUser(results[0], (userId) => {
+      console.log('server line 22 userId is ' + userId)
       results.forEach((result) => {
-        console.log('parsedResult is: ' + result);
+        console.log('to be saved repo is: ' + result);
         findOrSaveRepo(userId, result);
       })
     })
