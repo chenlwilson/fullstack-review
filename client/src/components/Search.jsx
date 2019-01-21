@@ -24,9 +24,10 @@ class Search extends React.Component {
     let debounceSearch = _.debounce(() => { this.props.onSearch(this.state.term) }, 500);
 
     return (<div>
-      <h4>Add more repos!</h4>
+      <h4>Find More Repos!
       Enter a github username: <input value={this.state.terms} onChange={this.onChange}/>
-      <button onClick={debounceSearch}> Add Repos </button>
+      <button onClick={debounceSearch}> Find Repos </button>
+      </h4>
     </div>)
   }
 }

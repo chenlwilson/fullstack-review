@@ -23,7 +23,7 @@ User.find((err, res) => {
   if(err) {
     console.log('user find err: ' + err)
   } else {
-    console.log(JSON.stringify(res));
+    console.log('res is ' + JSON.stringify(res));
   }
 })
 

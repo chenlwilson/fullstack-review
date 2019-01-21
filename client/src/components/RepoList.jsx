@@ -1,9 +1,16 @@
 import React from 'react';
+import RepoEntry from './RepoEntry.jsx'
+import UserProfile from './UserProfile.jsx'
 
 const RepoList = (props) => (
   <div>
-    <h4> Repo List Component </h4>
-    There are {props.repos.length} repos.
+      <UserProfile />
+    <h4>Woot! {props.repos.length} Repos Found.</h4>
+    <ul>
+    <RepoEntry />
+    <RepoEntry />
+    <RepoEntry />
+    </ul>
   </div>
 )
 
