@@ -51,7 +51,7 @@ class App extends React.Component {
     .done((data) => {
       console.log('fecth repos success!')
       this.setState({
-        repos: JSON.part(data)
+        repos: JSON.parse(data)
       })
     })
     .fail(() => {

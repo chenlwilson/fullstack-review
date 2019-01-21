@@ -1,9 +1,11 @@
 import React from 'react';
 
+const inlineStyle = {width:'100px',height:'100px'}
+
 const UserProfile = () => (
   <div>
     <h4>
-      <img style={{width:'100px',height:'100px'}} src='https://avatars0.githubusercontent.com/u/583231?v=3'></img>
+      <img style={inlineStyle} src='https://avatars0.githubusercontent.com/u/583231?v=3'></img>
       <br/>
       Name: Octocat
       </h4>

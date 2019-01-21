@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const {
   findOrSaveUser,
   findOrSaveRepo,
-  findPopularRepos } = require('../database/index.js');
+  getTopRepos } = require('../database/index.js');
 const {getReposByUsername} = require('../helpers/github.js');
 
 let app = express();
@@ -22,22 +22,24 @@ app.post('/repos', function (req, res) {
       console.log('getReposByUsername error: ' + err);
     } else {
       parsedResults = JSON.parse(results);
-      parsedResults.forEach((result) => {
-        findOrSaveUser(result.owner.login, findOrSaveRepo);
+      findOrSaveUser(parsedResults[0], (userId) => {
+        parsedResults.forEach((result) => {
+          console.log('parsedResult is: ' + result);
+          findOrSaveRepo(userId, result);
+        })
+        res.send(results);
       })
-      res.send(results);
     }
   });
-
 });
 
 app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
-  findPopularRepos((err, results) => {
+  getTopRepos((err, results) => {
     if (err) {
-      console.log('getReposByPopularity error: ' + err);
+      console.log('getTopRepos error: ' + err);
     } else {
-      parsedResults = JSON.parse(results);
+      console.log('getTopRepos success!')
       res.send(results);
     }
   });

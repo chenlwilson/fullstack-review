@@ -19,7 +19,7 @@ var userSchema = Schema({
 
 var User = mongoose.model('User', userSchema);
 
-User.find((err, res) => {
+User.find().exec((err, res) => {
   if(err) {
     console.log('user find err: ' + err)
   } else {
@@ -60,12 +60,12 @@ var findOrSaveUser = (data, callback) => {
       console.log('saving user error: ' + err);
     } else {
       console.log('new user saved!')
-      callback(data, user.id);
+      callback(user.id);
     }
   });
 }
 
-var findOrSaveRepo = (data, userId) => {
+var findOrSaveRepo = (userId, data) => {
   var query = { GHId: data.id }
   var options = {upsert: true, new: true}
   var newRepo = new Repo({
@@ -92,10 +92,13 @@ var findOrSaveRepo = (data, userId) => {
   });
 }
 
-var findPopularRepos = (callback) => {
-
+var getTopRepos = (callback) => {
+  Repo.find({})
+  .limit(25)
+  .sort('forksCount', 'descending')
+  .exec(callback)
 }
 
 module.exports.findOrSaveUser = findOrSaveUser;
 module.exports.findOrSaveRepo = findOrSaveRepo;
-module.exports.findPopularRepos = findPopularRepos;
+module.exports.getTopRepos = getTopRepos;
