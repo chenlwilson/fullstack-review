@@ -88,19 +88,20 @@ var findOrSaveUserAsync = (data) => {
 }
 
 var findOrSaveRepo = (userId, data) => {
+  console.log(data);
   var query = { GHId: data.id };
-  let date, time;
+  let formattedCreated, formattedUpdate;
   if (data.created_at && data.updated_at) {
-    date = data.created_at.split('T')[0] + ' ' + data.created_at.split('T')[1].split('Z')[0];
-    time = data.updated_at.split('T')[0] + ' ' + data.updated_at.split('T')[1].split('Z')[0];
+    formattedCreated = data.created_at.split('T')[0] + ' ' + data.created_at.split('T')[1].split('Z')[0];
+    formattedUpdate = data.updated_at.split('T')[0] + ' ' + data.updated_at.split('T')[1].split('Z')[0];
   }
 
   var newRepo = {
     name: data.name,
     fullName: data.full_name,
     GHId: data.id,
-    createdAt: date,
-    updatedAt: time,
+    createdAt: formattedCreated,
+    updatedAt: formattedUpdate,
     htmlUrl: data.html_url,
     language: data.language,
     size: data.size,
@@ -110,24 +111,40 @@ var findOrSaveRepo = (userId, data) => {
     collabsUrl: data.collaborators_url,
     userId: userId
   }
-  Repo.findOne(query)
-  .exec((err, result) => {
+
+  Repo.findOneAndUpdate(query, newRepo, {new: true, upsert: true}, (err, result) => {
     if (err) {
-      console.log('Repo.findOne error: ' + err);
+      console.log('Repo.findOneAndUpdate error: ' + err)
     } else {
-      if (result === null) {
-        Repo.create(newRepo, (err, user) => {
-          if (err) {
-            console.log('Repo.create erro: ' + err);
-          } else {
-            console.log('created new repo!');
-          }
-        });
-      } else {
-        console.log('repo already exist!');
-      }
+      console.log('Repo.findOneAndUpdate result: ')
+      console.log(result);
     }
   })
+  // var updatedRepo = {
+  //   updatedAt: formattedUpdate,
+  //   size: data.size,
+  //   forksCount: data.forks_count,
+  //   watchersCount: data.watchers,
+  //   defaultBranch: data.default_branch
+  // }
+
+  // Repo.findOne(query)
+  // .exec((err, result) => {
+  //   if (err) {
+  //     console.log('Repo.findOne error: ' + err);
+  //   } else if (result === null) {
+  //     Repo.create(newRepo, (err, user) => {
+  //       if (err) {
+  //         console.log('Repo.create erro: ' + err);
+  //       } else {
+  //         console.log('created new repo!');
+  //       }
+  //     });
+  //   } else {
+  //     Repo.updateOne(query, updatedRepo)
+  //     console.log('updated a repo!');
+  //   }
+  // })
 }
 
 var getReposByDBUser = (username, callback) => {

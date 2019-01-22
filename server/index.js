@@ -10,6 +10,7 @@ const {
 const {getReposByUsername} = require('../helpers/github.js');
 
 let app = express();
+let port = process.env.PORT || 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
@@ -39,7 +40,7 @@ app.post('/repos', function (req, res) {
                 res.send(results);
               }
             })
-          }, 2000)
+          }, 500)
         })
         .catch((err) => {
           console.log('findOrSaveUserAsync error: ' + err)
@@ -62,6 +63,6 @@ app.get('/repos', function (req, res) {
 
 });
 
-let port = 1128;
+
 
 
