@@ -9,9 +9,11 @@ const {
   getReposByDBUser } = require('../database/index.js');
 const {getReposByUsername} = require('../helpers/github.js');
 
-//const findOrSaveUserPromise = Promise.promisify(findOrSaveUser);
-
 let app = express();
+
+app.listen(port, function() {
+  console.log(`listening on port ${port}`);
+});
 
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.text());
@@ -23,21 +25,17 @@ app.post('/repos', function (req, res) {
   const searchedUser = req.body;
 
   getReposByUsername(searchedUser, (results) => {
-    console.log('server 22 results is ' + JSON.stringify(results));
     return findOrSaveUserAsync(results[0])
       .then((userId) => {
-        console.log('server line 22 userId is ' + userId)
         return Promise.all(results.map((result) => {
           return findOrSaveRepo(userId, result)
         }))
         .then(() => {
           setTimeout(() => {
             getReposByDBUser(searchedUser, (err, results) => {
-              console.log('server 36 seachedUser is ' + searchedUser)
               if (err) {
                 console.log('getReposByUser in db error: ' + err);
               } else {
-                console.log('server 40 results is ' + results);
                 res.send(results);
               }
             })
@@ -58,7 +56,6 @@ app.get('/repos', function (req, res) {
     if (err) {
       console.log('getTopRepos error: ' + err);
     } else {
-      console.log(results);
       res.send(results);
     }
   });
@@ -67,7 +64,4 @@ app.get('/repos', function (req, res) {
 
 let port = 1128;
 
-app.listen(port, function() {
-  console.log(`listening on port ${port}`);
-});
 

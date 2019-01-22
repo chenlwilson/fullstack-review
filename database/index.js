@@ -125,7 +125,6 @@ var findOrSaveRepo = (userId, data) => {
         });
       } else {
         console.log('repo already exist!');
-        console.log(result);
       }
     }
   })

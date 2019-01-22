@@ -22,8 +22,6 @@ let getReposByUsername = (username, callback) => {
       console.log('GH API call error: ' + err);
     } else {
       console.log('GH API call success! number of repos is ' + JSON.parse(body).length);
-      console.log('body from GH is');
-      console.log(JSON.parse(body));
       callback(JSON.parse(body))
     }
   })
