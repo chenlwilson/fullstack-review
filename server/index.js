@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const Promise = require('bluebird');
 
 const {
   findOrSaveUserAsync,
@@ -26,9 +27,9 @@ app.post('/repos', function (req, res) {
     return findOrSaveUserAsync(results[0])
       .then((userId) => {
         console.log('server line 22 userId is ' + userId)
-        results.forEach((result) => {
+        return Promise.all(results.map((result) => {
           return findOrSaveRepo(userId, result)
-        })
+        }))
       })
       .then(() => {
         console.log('server 33')
