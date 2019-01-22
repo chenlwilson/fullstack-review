@@ -30,22 +30,24 @@ app.post('/repos', function (req, res) {
         return Promise.all(results.map((result) => {
           return findOrSaveRepo(userId, result)
         }))
-      })
-      .then(() => {
-        console.log('server 33')
-        getReposByDBUser(searchedUser, (err, results) => {
-          console.log('server 36 seachedUser is ' + searchedUser)
-          if (err) {
-            console.log('getReposByUser in db error: ' + err);
-          } else {
-            console.log('server 40 results is ' + results);
-            res.send(results);
-          }
+        .then(() => {
+          setTimeout(() => {
+            getReposByDBUser(searchedUser, (err, results) => {
+              console.log('server 36 seachedUser is ' + searchedUser)
+              if (err) {
+                console.log('getReposByUser in db error: ' + err);
+              } else {
+                console.log('server 40 results is ' + results);
+                res.send(results);
+              }
+            })
+          }, 2000)
+        })
+        .catch((err) => {
+          console.log('findOrSaveUserAsync error: ' + err)
         })
       })
-      .catch((err) => {
-        console.log('findOrSaveUserAsync error: ' + err)
-      })
+
   })
 
 });

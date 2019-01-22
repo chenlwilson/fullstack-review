@@ -24,11 +24,11 @@ const RepoList = (props) => (
         <tr style={inlineTR}>
           <th>Owner</th>
           <th>Repository</th>
+          <th>Forks</th>
           <th>Created</th>
           <th>Last Updated</th>
           <th>Language</th>
           <th>Size</th>
-          <th>Forks</th>
           <th>Watchers</th>
           <th>Default Branch</th>
           <th>Collaborators</th>

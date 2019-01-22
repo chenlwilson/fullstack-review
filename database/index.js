@@ -131,18 +131,6 @@ var findOrSaveRepo = (userId, data) => {
   })
 }
 
-// var findOrSaveRepoAsync = (userId) => {
-//   return new Promise((reject, resolve) => {
-//     findOrSaveRepo(userId, (err) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve();
-//       }
-//     })
-//   })
-// }
-
 var getReposByDBUser = (username, callback) => {
   User.find({name: username}, 'id', (err, user) => {
     if (err) {
