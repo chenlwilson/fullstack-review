@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const {
-  findOrSaveUser,
+  findOrSaveUserAsync,
   findOrSaveRepo,
   getTopRepos,
   getReposByDBUser } = require('../database/index.js');
@@ -23,23 +23,28 @@ app.post('/repos', function (req, res) {
 
   getReposByUsername(searchedUser, (results) => {
     console.log('server 22 results is ' + JSON.stringify(results));
-    findOrSaveUser(results[0], (userId) => {
-      console.log('server line 22 userId is ' + userId)
-      results.forEach((result) => {
-        console.log('to be saved repo is: ' + result);
-        findOrSaveRepo(userId, result);
+    return findOrSaveUserAsync(results[0])
+      .then((userId) => {
+        console.log('server line 22 userId is ' + userId)
+        results.forEach((result) => {
+          return findOrSaveRepo(userId, result)
+        })
       })
-    })
-
-    getReposByDBUser(searchedUser, (err, results) => {
-      if (err) {
-        console.log('getReposByUser in db error: ' + err);
-      } else {
-        console.log('server 40 results is ' + results);
-        res.send(results);
-      }
-    })
-
+      .then(() => {
+        console.log('server 33')
+        getReposByDBUser(searchedUser, (err, results) => {
+          console.log('server 36 seachedUser is ' + searchedUser)
+          if (err) {
+            console.log('getReposByUser in db error: ' + err);
+          } else {
+            console.log('server 40 results is ' + results);
+            res.send(results);
+          }
+        })
+      })
+      .catch((err) => {
+        console.log('findOrSaveUserAsync error: ' + err)
+      })
   })
 
 });

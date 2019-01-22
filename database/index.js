@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 
 ///////////////////////Schema//////////////////////
 var Schema = mongoose.Schema;
@@ -57,7 +58,7 @@ var findOrSaveUser = (data, callback) => {
     if (err) {
       console.log('User.findOne error: ' + err);
     } else {
-      if (!result) {
+      if (result === null) {
         User.create(newUser, (err, user) => {
           if (err) {
             console.log('User.create erro: ' + err);
@@ -66,21 +67,40 @@ var findOrSaveUser = (data, callback) => {
             callback(user.id);
           }
         });
+      } else {
+        console.log('found user: ' + result);
+        callback(result.id);
       }
-      console.log('found user: ' + result);
-      callback(result.id);
     }
   })
 }
 
+var findOrSaveUserAsync = (data) => {
+  return new Promise((reject, resolve) => {
+    findOrSaveUser(data, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result.id);
+      }
+    })
+  })
+}
+
 var findOrSaveRepo = (userId, data) => {
-  var query = { GHId: data.id }
+  var query = { GHId: data.id };
+  let date, time;
+  if (data.created_at && data.updated_at) {
+    date = data.created_at.split('T')[0] + ' ' + data.created_at.split('T')[1].split('Z')[0];
+    time = data.updated_at.split('T')[0] + ' ' + data.updated_at.split('T')[1].split('Z')[0];
+  }
+
   var newRepo = {
     name: data.name,
     fullName: data.full_name,
     GHId: data.id,
-    createdAt: data.created_at.split('T')[0] + ' ' + data.created_at.split('T')[1].split('Z')[0],
-    updatedAt: data.updated_at.split('T')[0] + ' ' + data.updated_at.split('T')[1].split('Z')[0],
+    createdAt: date,
+    updatedAt: time,
     htmlUrl: data.html_url,
     language: data.language,
     size: data.size,
@@ -95,20 +115,33 @@ var findOrSaveRepo = (userId, data) => {
     if (err) {
       console.log('Repo.findOne error: ' + err);
     } else {
-      if (!result) {
+      if (result === null) {
         Repo.create(newRepo, (err, user) => {
           if (err) {
-            console.log('User.create erro: ' + err);
+            console.log('Repo.create erro: ' + err);
           } else {
             console.log('created new repo!');
           }
         });
       } else {
         console.log('repo already exist!');
+        console.log(result);
       }
     }
   })
 }
+
+// var findOrSaveRepoAsync = (userId) => {
+//   return new Promise((reject, resolve) => {
+//     findOrSaveRepo(userId, (err) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve();
+//       }
+//     })
+//   })
+// }
 
 var getReposByDBUser = (username, callback) => {
   User.find({name: username}, 'id', (err, user) => {
@@ -134,7 +167,7 @@ var getTopRepos = (callback) => {
   .exec(callback)
 }
 
-module.exports.findOrSaveUser = findOrSaveUser;
+module.exports.findOrSaveUserAsync = findOrSaveUserAsync;
 module.exports.findOrSaveRepo = findOrSaveRepo;
 module.exports.getReposByDBUser = getReposByDBUser;
 module.exports.getTopRepos = getTopRepos;
