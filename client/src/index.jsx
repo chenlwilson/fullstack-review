@@ -30,7 +30,7 @@ class App extends React.Component {
 
   loadRepos() {
     $.ajax({
-      url: '/repos',
+      url: '/',
       type: 'GET',
       contentType: 'text/plain'
     })
@@ -51,7 +51,7 @@ class App extends React.Component {
     console.log(`${term} was searched`);
     //$.ajax post to '/repos'
     $.ajax({
-      url: '/repos',
+      url: '/',
       type: 'POST',
       contentType: 'text/plain',
       data: term
