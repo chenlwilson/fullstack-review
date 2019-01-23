@@ -5,7 +5,7 @@ var config = require('dotenv').config();
 ///////////////////////Schema//////////////////////
 var Schema = mongoose.Schema;
 //var local = 'mongodb://localhost:27017/fetcher'
-mongoose.connect(process.env.URI, { useNewUrlParser: true });
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

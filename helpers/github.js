@@ -12,7 +12,7 @@ let getReposByUsername = (username, callback) => {
     //Accept: application/vnd.github.v3+json,
     headers: {
       'User-Agent': 'request',
-      'Authorization': `token ${process.env.TOKEN}`
+      'Authorization': `token ${config.TOKEN}`
     },
     sort: 'created',
     direction: 'desc'
