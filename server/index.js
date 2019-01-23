@@ -10,8 +10,7 @@ const {
 const {getReposByUsername} = require('../helpers/github.js');
 
 let app = express();
-let port = process.env.PORT
-let localhost = 1128;
+let port = process.env.PORT || 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
