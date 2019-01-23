@@ -1,6 +1,11 @@
 const request = require('request');
+//for deploy locally
 //const config = require('../config.js');
+
+//for use process.env.TOKEN
 //const config = require('dotenv').config();
+
+//TOKEN below using Heroku config var
 
 let getReposByUsername = (username, callback) => {
   // Use the request module to request repos for a specific
