@@ -1,6 +1,6 @@
 const request = require('request');
 //const config = require('../config.js');
-const config = require('dotenv').config();
+//const config = require('dotenv').config();
 
 let getReposByUsername = (username, callback) => {
   // Use the request module to request repos for a specific
@@ -9,7 +9,6 @@ let getReposByUsername = (username, callback) => {
   let options = {
     //GET /users/:username/repos
     url: `https://api.github.com/users/${username}/repos`,
-    //Accept: application/vnd.github.v3+json,
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
