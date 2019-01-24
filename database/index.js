@@ -4,7 +4,7 @@ const config = require('dotenv').config();
 
 ///////////////////////Schema//////////////////////
 var Schema = mongoose.Schema;
-//var local = 'mongodb://localhost:27017/fetcher'
+var local = 'mongodb://localhost:27017/fetcher'
 var MONGODB_URI = 'mongodb://heroku_jvbvm8h6:f9fet4b0psbhg32rq61gmfqn4l@ds147411.mlab.com:47411/heroku_jvbvm8h6'
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 

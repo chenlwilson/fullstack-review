@@ -9,6 +9,7 @@
   },
   "scripts": {
     "webpack": "webpack -d --watch",
+    "server-dev": "nodemon ./server/index.js",
     "start": "webpack && node ./server/index.js"
   },
   "author": "Beth Johnson",
