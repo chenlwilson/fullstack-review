@@ -10,10 +10,8 @@ const UserProfile = (props) => (
   <div>
     <h3>
       <img style={inlineStyle} src={ props.user.avatarUrl }></img><br/>
-      <caption>
         >.
         <a href={ props.user.htmlUrl }>{ props.user.name }</a>
-        </caption>
       </h3>
   </div>
 )

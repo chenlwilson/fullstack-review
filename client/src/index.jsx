@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 import UserProfile from './components/UserProfile.jsx'
+import Loader from './components/Loader.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -80,22 +81,10 @@ class App extends React.Component {
 
     let userProfile
 
-    const loaderStyle = {
-      height: '100px',
-      width:'100px',
-      display:'block',
-      opacity: '0.6',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: '100px'
+    if (this.state.loading) {
+      return (<Loader />)
     }
 
-    if (this.state.loading) {
-      return(
-      <div>
-        <img style={loaderStyle} src= './loader.gif'>Github treasure hunting</img>
-        </div>)
-    }
     if (this.state.search === 'Recent') {
       userProfile = <UserProfile user={ this.state.user } />
     }
@@ -103,7 +92,7 @@ class App extends React.Component {
     return (
     <div>
       <h1>Github Fetcher</h1>
-      <Search onSearch={this.search}/><br/>
+      <Search onSearch={this.search}/>
       {userProfile}
       <RepoList repos={this.state.repos}  msg={ this.state.search } />
     </div>
