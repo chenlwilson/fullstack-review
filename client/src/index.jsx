@@ -67,7 +67,8 @@ class App extends React.Component {
       this.setState({
         repos: data,
         search: 'Recent',
-        user: data[0].userId
+        user: data[0].userId,
+        loading: false
       })
     })
     .fail(() => {
@@ -84,12 +85,13 @@ class App extends React.Component {
       width:'100px',
       display:'block',
       opacity: '0.6',
-      float: 'center',
-      margin: '20px, 5px'
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: '100px'
     }
 
     if (this.state.loading) {
-      loader = <img style={loaderStyle} src= './loader.gif' />
+      return(<div><img style={loaderStyle} src= './loader.gif' /></div>)
     }
     if (this.state.search === 'Recent') {
       userProfile = <UserProfile user={ this.state.user } />
@@ -97,7 +99,6 @@ class App extends React.Component {
 
     return (
     <div>
-      {loader}
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search}/><br/>
       {userProfile}
