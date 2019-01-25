@@ -30,12 +30,6 @@ class App extends React.Component {
     })
   }
 
-  componentWillMount() {
-    this.setState({
-      loading: true
-    })
-  }
-
   loadRepos() {
     $.ajax({
       url: '/repos',
@@ -58,6 +52,9 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
+    this.setState({
+      loading: true
+    })
     //$.ajax post to '/repos'
     $.ajax({
       url: '/repos',
@@ -105,7 +102,8 @@ class App extends React.Component {
       <Search onSearch={this.search}/><br/>
       {userProfile}
       <RepoList repos={this.state.repos}  msg={ this.state.search } />
-    </div>)
+    </div>
+    )
   }
 }
 
