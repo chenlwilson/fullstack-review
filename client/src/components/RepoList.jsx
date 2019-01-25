@@ -22,11 +22,10 @@ class RepoList extends React.Component {
   }
 
   render() {
-    const name = this.props.user.name
+    const avatar = this.props.user.avatarUrl
     let message
 
-    if ( name === 'User has no public repositories'
-    || name === 'User Not Found') {
+    if ( avatar === './blackwhiteicon.png') {
       message = <h4>Oops...no repositories found</h4>
     } else {
       message = <h4>Woot! { this.props.repos.length } Most { this.props.msg } Repos Found.</h4>
