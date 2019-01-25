@@ -19,7 +19,6 @@ const RepoEntry = (props) => (
     <td>{ props.data.size }</td>
     <td>{ props.data.watchersCount }</td>
     <td>{ props.data.defaultBranch }</td>
-    <td><a href={ props.data.collabsUrl }>collaborators</a></td>
   </tr>
 )
 

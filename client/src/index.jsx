@@ -94,7 +94,7 @@ class App extends React.Component {
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search}/>
       {userProfile}
-      <RepoList repos={this.state.repos}  msg={ this.state.search } />
+      <RepoList repos={this.state.repos}  msg={ this.state.search } user={ this.state.user }/>
     </div>
     )
   }
