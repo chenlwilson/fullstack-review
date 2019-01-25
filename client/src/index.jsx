@@ -78,7 +78,7 @@ class App extends React.Component {
 
   render () {
 
-    let userProfile, loader
+    let userProfile
 
     const loaderStyle = {
       height: '100px',
@@ -91,7 +91,10 @@ class App extends React.Component {
     }
 
     if (this.state.loading) {
-      return(<div><img style={loaderStyle} src= './loader.gif' /></div>)
+      return(
+      <div>
+        <img style={loaderStyle} src= './loader.gif'>Github treasure hunting</img>
+        </div>)
     }
     if (this.state.search === 'Recent') {
       userProfile = <UserProfile user={ this.state.user } />
