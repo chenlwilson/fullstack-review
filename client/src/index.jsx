@@ -16,7 +16,8 @@ class App extends React.Component {
     this.state = {
       repos: [],
       user: '',
-      search: 'Popular'
+      search: 'Popular',
+      loading: true
     }
 
   }
@@ -24,7 +25,14 @@ class App extends React.Component {
   componentDidMount() {
     this.loadRepos();
     this.setState({
-      search: 'Popular'
+      search: 'Popular',
+      loading: false
+    })
+  }
+
+  componentWillMount() {
+    this.setState({
+      loading: true
     })
   }
 
@@ -39,7 +47,8 @@ class App extends React.Component {
       console.log(data)
       this.setState({
         repos: data,
-        user: data[0].userId
+        user: data[0].userId,
+        loading: false
       })
     })
     .fail(() => {
@@ -71,15 +80,29 @@ class App extends React.Component {
 
   render () {
 
-    let userProfile
+    let userProfile, loader
+
+    const loaderStyle = {
+      height: '100px',
+      width:'100px',
+      display:'block',
+      opacity: '0.6',
+      float: 'center',
+      margin: '20px, 5px'
+    }
+
+    if (this.state.loading) {
+      loader = <img style={loaderStyle} src= './loader.gif' />
+    }
     if (this.state.search === 'Recent') {
       userProfile = <UserProfile user={ this.state.user } />
     }
 
-    return (<div>
+    return (
+    <div>
+      {loader}
       <h1>Github Fetcher</h1>
-      <Search onSearch={this.search}/>
-      <br/>
+      <Search onSearch={this.search}/><br/>
       {userProfile}
       <RepoList repos={this.state.repos}  msg={ this.state.search } />
     </div>)

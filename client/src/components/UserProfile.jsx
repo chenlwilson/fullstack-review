@@ -1,23 +1,20 @@
 import React from 'react';
 
 const inlineStyle = {
-  width:'130px',
-  height:'130px',
+  width:'150px',
+  height:'150px',
   borderRadius:'5px'
 }
 
 const UserProfile = (props) => (
   <div>
     <h3>
-      <img style={inlineStyle} src={ props.user.avatarUrl }></img>
-      <br/>
-      > { props.user.name }
+      <img style={inlineStyle} src={ props.user.avatarUrl }></img><br/>
+      <caption>
+        >.
+        <a href={ props.user.htmlUrl }>{ props.user.name }</a>
+        </caption>
       </h3>
-    <ul>
-    <li><a href={ props.user.htmlUrl }>profile</a></li>
-    <li>repositories api: { props.user.reposUrl }</li>
-    <li>orgnizations api: { props.user.orgsUrl }</li>
-    </ul>
   </div>
 )
 

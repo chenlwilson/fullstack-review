@@ -9,7 +9,8 @@ class Search extends React.Component {
     this.onChange = this.onChange.bind(this);
 
     this.state = {
-      term: ''
+      term: '',
+      loading: false
     }
   }
 
@@ -26,7 +27,7 @@ class Search extends React.Component {
     return (<div>
       <h4>Find More Repos!
       Enter a github username: <input value={this.state.terms} onChange={this.onChange}/>
-      <button onClick={debounceSearch}> Find Repos </button>
+      <button onClick={ debounceSearch }> Find Repos </button>
       </h4>
     </div>)
   }
