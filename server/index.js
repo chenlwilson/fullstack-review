@@ -24,9 +24,13 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   const searchedUser = req.body;
+  const unfoundUser = {userId:{name:'User Not Found',avatarUrl:'./blackwhiteicon.png'}}
 
   getReposByUsername(searchedUser, (results) => {
-    return findOrSaveUserAsync(results[0])
+    if (results.message === 'Not Found') {
+      res.send([unfoundUser])
+    } else {
+      return findOrSaveUserAsync(results[0])
       .then((userId) => {
         return Promise.all(results.map((result) => {
           return findOrSaveRepo(userId, result)
@@ -46,7 +50,7 @@ app.post('/repos', function (req, res) {
           console.log('findOrSaveUserAsync error: ' + err)
         })
       })
-
+    }
   })
 
 });
