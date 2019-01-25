@@ -25,9 +25,12 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   const searchedUser = req.body;
   const unfoundUser = {userId:{name:'User Not Found',avatarUrl:'./blackwhiteicon.png'}}
+  const noRepoUser = {userId:{name:'User has no public repositories',avatarUrl:'./blackwhiteicon.png'}}
 
   getReposByUsername(searchedUser, (results) => {
-    if (results.message === 'Not Found') {
+    if (results.length === 0) {
+      res.send([noRepoUser])
+    } else if (results.message === 'Not Found') {
       res.send([unfoundUser])
     } else {
       return findOrSaveUserAsync(results[0])
